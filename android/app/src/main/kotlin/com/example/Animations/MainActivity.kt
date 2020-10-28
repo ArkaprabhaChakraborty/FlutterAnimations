@@ -1,0 +1,6 @@
+package com.example.Animations
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
