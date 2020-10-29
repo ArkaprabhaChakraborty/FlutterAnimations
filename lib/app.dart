@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:reply/router.dart';
+import 'package:Animations/router.dart';
 
 import 'colors.dart';
-import 'model/email_store.dart';
-import 'model/router_provider.dart';
+import 'email_store.dart';
+import 'router_provider.dart';
 
 class ReplyApp extends StatefulWidget {
   const ReplyApp();
