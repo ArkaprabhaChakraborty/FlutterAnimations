@@ -27,11 +27,9 @@ class MailViewRouterDelegate extends RouterDelegate<void>
           onPopPage: _handlePopPage,
           pages: [
             // TODO: Add Fade through transition between mailbox pages (Motion)
-            CustomTransitionPage(
+            FadeThroughTransitionPageWrapper(
+              mailbox: InboxPage(destination: currentlySelectedInbox),
               transitionKey: ValueKey(currentlySelectedInbox),
-              screen: InboxPage(
-                destination: currentlySelectedInbox,
-              ),
             )
           ],
         );
