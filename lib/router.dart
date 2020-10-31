@@ -53,7 +53,7 @@ class ReplyRouterDelegate extends RouterDelegate<ReplyRoutePath>
                 screen: HomePage(),
               ),
               if (routePath is ReplySearchPath)
-                const CustomTransitionPage(
+                const SharedAxisTransitionPageWrapper(
                   transitionKey: ValueKey('Search'),
                   screen: SearchPage(),
                 ),
