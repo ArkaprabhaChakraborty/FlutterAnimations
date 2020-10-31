@@ -391,7 +391,9 @@ class _AnimatedBottomAppBar extends StatelessWidget {
                           const _ReplyLogo(),
                           const SizedBox(width: 10),
                           // TODO: Add Fade through transition between disappearing mailbox title (Motion)
-                          onMailView
+                          _FadeThroughTransitionSwitcher(
+                            fillColor: Colors.transparent,
+                            child:onMailView
                               ? const SizedBox(width: 48)
                               : FadeTransition(
                                   opacity: fadeOut,
@@ -414,7 +416,8 @@ class _AnimatedBottomAppBar extends StatelessWidget {
                                       );
                                     },
                                   ),
-                                ),
+                                )
+                          ),
                         ],
                       ),
                     ),
@@ -730,7 +733,9 @@ class _ReplyFabState extends State<_ReplyFab>
       selector: (context, emailStore) => emailStore.onMailView,
       builder: (context, onMailView, child) {
         // TODO: Add Fade through transition between compose and reply FAB (Motion)
-        final fabSwitcher = onMailView
+        final fabSwitcher = _FadeThroughTransitionSwitcher(
+            fillColor: Colors.transparent, 
+            child: onMailView
             ? Icon(
                 Icons.reply_all,
                 color: Colors.black,
@@ -738,57 +743,57 @@ class _ReplyFabState extends State<_ReplyFab>
             : const Icon(
                 Icons.create,
                 color: Colors.black,
-              );
+              ));
         final tooltip = onMailView ? 'Reply' : 'Compose';
 
         return OpenContainer(
- openBuilder: (context, closedContainer) {
-   return const ComposePage();
- },
- openColor: theme.cardColor,
- onClosed: (success) {
-   Provider.of<EmailStore>(
-     context,
-     listen: false,
-   ).onCompose = false;
- },
- closedShape: circleFabBorder,
- closedColor: theme.colorScheme.secondary,
- closedElevation: 6,
- closedBuilder: (context, openContainer) {
-   return Tooltip(
-       message: tooltip,
-       child: InkWell(
-         customBorder: circleFabBorder,
-         onTap: () {
-           Provider.of<EmailStore>(
-             context,
-             listen: false,
-           ).onCompose = true;
+          openBuilder: (context, closedContainer) {
+            return const ComposePage();
+          },
+          openColor: theme.cardColor,
+          onClosed: (success) {
+            Provider.of<EmailStore>(
+              context,
+              listen: false,
+            ).onCompose = false;
+          },
+          closedShape: circleFabBorder,
+          closedColor: theme.colorScheme.secondary,
+          closedElevation: 6,
+          closedBuilder: (context, openContainer) {
+            return Tooltip(
+              message: tooltip,
+              child: InkWell(
+                customBorder: circleFabBorder,
+                onTap: () {
+                  Provider.of<EmailStore>(
+                    context,
+                    listen: false,
+                  ).onCompose = true;
 
-           Navigator.of(context).push(
-             PageRouteBuilder(
-               pageBuilder: (BuildContext context,
-                   Animation<double> animation,
-                   Animation<double> secondaryAnimation,
-               ) {
-                 return const ComposePage();
-               },
-             ),
-           );
-         },
-         child: SizedBox(
-           height: _mobileFabDimension,
-           width: _mobileFabDimension,
-           child: Center(
-             child: fabSwitcher,
-           ),
-         ),
-       ),
-     );
- },
-);
-
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (
+                        BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation,
+                      ) {
+                        return const ComposePage();
+                      },
+                    ),
+                  );
+                },
+                child: SizedBox(
+                  height: _mobileFabDimension,
+                  width: _mobileFabDimension,
+                  child: Center(
+                    child: fabSwitcher,
+                  ),
+                ),
+              ),
+            );
+          },
+        );
       },
     );
   }
@@ -796,27 +801,27 @@ class _ReplyFabState extends State<_ReplyFab>
 
 // TODO: Add Fade through transition between compose and reply FAB (Motion)
 class _FadeThroughTransitionSwitcher extends StatelessWidget {
- const _FadeThroughTransitionSwitcher({
-   @required this.fillColor,
-   @required this.child,
- })  : assert(fillColor != null),
-       assert(child != null);
+  const _FadeThroughTransitionSwitcher({
+    @required this.fillColor,
+    @required this.child,
+  })  : assert(fillColor != null),
+        assert(child != null);
 
- final Widget child;
- final Color fillColor;
+  final Widget child;
+  final Color fillColor;
 
- @override
- Widget build(BuildContext context) {
-   return PageTransitionSwitcher(
-     transitionBuilder: (child, animation, secondaryAnimation) {
-       return FadeThroughTransition(
-         fillColor: fillColor,
-         child: child,
-         animation: animation,
-         secondaryAnimation: secondaryAnimation,
-       );
-     },
-     child: child,
-   );
- }
+  @override
+  Widget build(BuildContext context) {
+    return PageTransitionSwitcher(
+      transitionBuilder: (child, animation, secondaryAnimation) {
+        return FadeThroughTransition(
+          fillColor: fillColor,
+          child: child,
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+        );
+      },
+      child: child,
+    );
+  }
 }
