@@ -795,3 +795,28 @@ class _ReplyFabState extends State<_ReplyFab>
 }
 
 // TODO: Add Fade through transition between compose and reply FAB (Motion)
+class _FadeThroughTransitionSwitcher extends StatelessWidget {
+ const _FadeThroughTransitionSwitcher({
+   @required this.fillColor,
+   @required this.child,
+ })  : assert(fillColor != null),
+       assert(child != null);
+
+ final Widget child;
+ final Color fillColor;
+
+ @override
+ Widget build(BuildContext context) {
+   return PageTransitionSwitcher(
+     transitionBuilder: (child, animation, secondaryAnimation) {
+       return FadeThroughTransition(
+         fillColor: fillColor,
+         child: child,
+         animation: animation,
+         secondaryAnimation: secondaryAnimation,
+       );
+     },
+     child: child,
+   );
+ }
+}
